@@ -2,10 +2,10 @@ const ctx = document.getElementById('profitChart').getContext('2d');
 const chart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: [], // Initially empty, will be filled with real-time data
+        labels: [], // Initially empty
         datasets: [{
             label: 'EUR/USD Price',
-            data: [], // Initially empty, will be updated with real-time data
+            data: [],
             borderColor: 'rgba(0, 204, 0, 1)',
             borderWidth: 2,
             pointBackgroundColor: 'rgba(0, 204, 0, 1)',
@@ -31,45 +31,50 @@ const chart = new Chart(ctx, {
 
 // Function to fetch Forex data
 async function fetchForexData(interval = '5min') {
-    const url = `https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=EUR&to_symbol=USD&interval=${interval}&apikey=demo`;
-    
+    const apiKey = 'your_api_key_here'; // Replace with your API key
+    const url = `https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=EUR&to_symbol=USD&interval=${interval}&apikey=${apiKey}`;
+    const loadingIndicator = document.getElementById('loadingIndicator');
+
     try {
+        loadingIndicator.style.display = 'block'; // Show loading indicator
         const response = await fetch(url);
         const data = await response.json();
-        
-        const timeSeries = data["Time Series FX (5min)"]; // This is specific to the 5min interval API response
-        
+
+        if (data["Error Message"] || !data["Time Series FX (5min)"]) {
+            throw new Error('Invalid API response.');
+        }
+
+        const timeSeries = data["Time Series FX (5min)"];
         const labels = [];
         const priceData = [];
-        
+
         for (const time in timeSeries) {
-            labels.push(time);
-            priceData.push(timeSeries[time]["4. close"]); // Closing price for EUR/USD
+            labels.push(new Date(time).toLocaleString()); // Convert to readable format
+            priceData.push(parseFloat(timeSeries[time]["4. close"])); // Closing price
         }
-        
-        // Update the chart data
-        chart.data.labels = labels;
-        chart.data.datasets[0].data = priceData;
+
+        // Update the chart
+        chart.data.labels = labels.reverse();
+        chart.data.datasets[0].data = priceData.reverse();
         chart.update();
     } catch (error) {
         console.error('Error fetching Forex data:', error);
+        alert('Failed to fetch Forex data. Please try again later.');
+    } finally {
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
     }
 }
 
-// Function to handle different chart filters (Daily, Monthly, Yearly)
+// Function to update the chart based on selected range
 function updateChart(range) {
-    let interval = '5min'; // Default 5 minutes interval
+    const intervalMapping = {
+        daily: '15min',
+        monthly: '1h',
+        yearly: '1d'
+    };
 
-    if (range === 'daily') {
-        interval = '15min'; // Adjust interval for daily view
-    } else if (range === 'monthly') {
-        interval = '1h'; // Adjust interval for monthly view
-    } else if (range === 'yearly') {
-        interval = '1d'; // Adjust interval for yearly view
-    }
-
-    fetchForexData(interval); // Update the chart with the selected interval
+    fetchForexData(intervalMapping[range] || '5min');
 }
 
-// Initial chart load (5-minute interval by default)
-fetchForexData('5min');
+// Initial data fetch
+fetchForexData();
