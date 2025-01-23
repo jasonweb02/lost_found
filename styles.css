@@ -1,95 +1,116 @@
+/* General Body */
 body {
-    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; /* Lighter background */
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
+/* Header */
 header {
-    background-color: #333;
-    padding: 20px 0;
-    text-align: center;
-}
-
-.header-image {
-    width: 100%;
-    height: auto;
-}
-
-.header-container {
-    position: absolute;
-    top: 20%;
-    width: 100%;
-    text-align: center;
-}
-
-.logo {
-    font-size: 36px;
-    color: #fff;
-}
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-}
-
-.nav-links li {
-    display: inline;
-    margin: 0 15px;
-}
-
-.nav-links a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.cta-btn {
-    background-color: #008CBA;
+    background-color: #0061F2; /* Freelancer blue */
     color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
+    padding: 20px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+}
+
+header .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+header nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: white;
     font-size: 16px;
 }
 
-.cta-btn:hover {
-    background-color: #007B8B;
-}
-
-.section-container {
-    padding: 40px 20px;
-    text-align: center;
-}
-
-.feature-list {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.feature-item {
-    width: 20%;
-}
-
-.plans {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.plan {
-    width: 30%;
-    background: #f4f4f4;
-    padding: 20px;
-    text-align: center;
+header .cta-btn {
+    background-color: #FFB800; /* Freelancer yellow */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    border: none;
     cursor: pointer;
 }
 
-.plan:hover {
-    background-color: #ddd;
+/* Hero Section */
+#hero {
+    background-image: url('images/banner03.jpg'); /* Adjust your banner image */
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
 }
 
+#hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+#hero .cta-btn {
+    background-color: #FFB800;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+/* Features Section */
+.section-container {
+    padding: 60px 20px;
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.feature-item {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.feature-item h3 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.feature-item p {
+    color: #666;
+}
+
+/* Footer */
 footer {
     background-color: #333;
     color: white;
@@ -98,6 +119,58 @@ footer {
 }
 
 footer a {
-    color: #fff;
+    color: #FFB800;
     text-decoration: none;
+}
+
+/* About Us Section */
+#about {
+    background-color: #ffffff; /* White background for about section */
+    padding: 40px 20px;
+    text-align: center;
+}
+
+#about h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#about p {
+    font-size: 1.1rem;
+    color: #444;
+    font-weight: bold; /* Bold text */
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Button Hover Effects */
+button.cta-btn:hover {
+    background-color: #FF9800; /* Darker shade of yellow for hover */
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    header .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #hero h1 {
+        font-size: 2rem;
+    }
+
+    #hero p {
+        font-size: 1rem;
+    }
+
+    .feature-list {
+        grid-template-columns: 1fr;
+    }
 }
