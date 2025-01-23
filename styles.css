@@ -5,11 +5,13 @@ body {
     padding: 0;
     background-color: #f4f4f9;
     color: #333;
+    line-height: 1.6; /* Added for better readability */
 }
 
 h1, h2, h3 {
     margin: 0;
     padding: 0;
+    line-height: 1.2;
 }
 
 a {
@@ -68,6 +70,7 @@ header img.header-image {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .cta-btn:hover {
@@ -89,7 +92,7 @@ header img.header-image {
 
 #about p {
     font-size: 18px;
-    line-height: 1.6;
+    line-height: 1.8; /* Slightly increased for better readability */
     color: #333;
     font-weight: bold;
     text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.7);
@@ -122,6 +125,12 @@ header img.header-image {
     border: 2px solid #004080;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .feature-item h3 {
@@ -144,9 +153,9 @@ header img.header-image {
 .chart-container {
     position: relative;
     width: 100%;
-    max-width: 1000px; /* Limit the width for better presentation */
+    max-width: 1000px;
     margin: 0 auto;
-    height: 400px; /* Ensures the chart has a good height */
+    height: 400px;
 }
 
 .chart-filters {
@@ -196,6 +205,14 @@ header img.header-image {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.plan:hover {
+    background-color: #004080;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .plan h3 {
@@ -208,9 +225,40 @@ header img.header-image {
     color: #333;
 }
 
-.plan:hover {
+/* Payment Section */
+#payment {
+    background-color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+    border-top: 2px solid #004080;
+}
+
+#payment h2 {
+    font-size: 32px;
+    color: #004080;
+    font-weight: bold;
+}
+
+#payment form input, #payment form button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    font-size: 16px;
+}
+
+#payment form button {
     background-color: #004080;
-    color: #fff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#payment form button:hover {
+    background-color: #003366;
 }
 
 /* Contact Section */
@@ -244,6 +292,7 @@ header img.header-image {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 #contact form button:hover {
@@ -289,7 +338,7 @@ footer a:hover {
 
     .chart-container {
         width: 90%;
-        height: 300px; /* Adjust for smaller screens */
+        height: 300px;
     }
 }
 
