@@ -141,6 +141,14 @@ header img.header-image {
     text-align: center;
 }
 
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px; /* Limit the width for better presentation */
+    margin: 0 auto;
+    height: 400px; /* Ensures the chart has a good height */
+}
+
 .chart-filters {
     margin-bottom: 30px;
 }
@@ -277,6 +285,11 @@ footer a:hover {
     .cta-btn {
         padding: 12px 24px;
         font-size: 14px;
+    }
+
+    .chart-container {
+        width: 90%;
+        height: 300px; /* Adjust for smaller screens */
     }
 }
 
