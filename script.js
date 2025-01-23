@@ -2,24 +2,15 @@ const ctx = document.getElementById('profitChart').getContext('2d');
 const chart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        labels: [], // Initially empty, will be filled with real-time data
         datasets: [{
-            label: 'Profits',
-            data: [500, 700, 800, 1200, 1500, 1700],
+            label: 'EUR/USD Price',
+            data: [], // Initially empty, will be updated with real-time data
             borderColor: 'rgba(0, 204, 0, 1)',
             borderWidth: 2,
             pointBackgroundColor: 'rgba(0, 204, 0, 1)',
             fill: true,
             backgroundColor: 'rgba(0, 204, 0, 0.2)',
-            tension: 0.4
-        }, {
-            label: 'Losses',
-            data: [100, 120, 90, 80, 70, 60],
-            borderColor: 'rgba(204, 0, 0, 1)',
-            borderWidth: 2,
-            pointBackgroundColor: 'rgba(204, 0, 0, 1)',
-            fill: true,
-            backgroundColor: 'rgba(204, 0, 0, 0.2)',
             tension: 0.4
         }]
     },
@@ -27,7 +18,7 @@ const chart = new Chart(ctx, {
         responsive: true,
         scales: {
             y: {
-                beginAtZero: true,
+                beginAtZero: false,
             },
             x: {
                 grid: {
@@ -38,19 +29,47 @@ const chart = new Chart(ctx, {
     }
 });
 
-function updateChart(range) {
-    if (range === 'daily') {
-        chart.data.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-        chart.data.datasets[0].data = [100, 200, 300, 400, 500];
-        chart.data.datasets[1].data = [10, 20, 30, 40, 50];
-    } else if (range === 'monthly') {
-        chart.data.labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-        chart.data.datasets[0].data = [500, 700, 800, 1200, 1500, 1700];
-        chart.data.datasets[1].data = [100, 120, 90, 80, 70, 60];
-    } else if (range === 'yearly') {
-        chart.data.labels = ['2021', '2022', '2023', '2024', '2025'];
-        chart.data.datasets[0].data = [12000, 15000, 17000, 20000, 22000];
-        chart.data.datasets[1].data = [1200, 1000, 900, 800, 700];
+// Function to fetch Forex data
+async function fetchForexData(interval = '5min') {
+    const url = `https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=EUR&to_symbol=USD&interval=${interval}&apikey=demo`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        const timeSeries = data["Time Series FX (5min)"]; // This is specific to the 5min interval API response
+        
+        const labels = [];
+        const priceData = [];
+        
+        for (const time in timeSeries) {
+            labels.push(time);
+            priceData.push(timeSeries[time]["4. close"]); // Closing price for EUR/USD
+        }
+        
+        // Update the chart data
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = priceData;
+        chart.update();
+    } catch (error) {
+        console.error('Error fetching Forex data:', error);
     }
-    chart.update();
 }
+
+// Function to handle different chart filters (Daily, Monthly, Yearly)
+function updateChart(range) {
+    let interval = '5min'; // Default 5 minutes interval
+
+    if (range === 'daily') {
+        interval = '15min'; // Adjust interval for daily view
+    } else if (range === 'monthly') {
+        interval = '1h'; // Adjust interval for monthly view
+    } else if (range === 'yearly') {
+        interval = '1d'; // Adjust interval for yearly view
+    }
+
+    fetchForexData(interval); // Update the chart with the selected interval
+}
+
+// Initial chart load (5-minute interval by default)
+fetchForexData('5min');
